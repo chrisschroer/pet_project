@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides *ngIf="clubs" spaceBetween="-10" (ionSlideDidChange)="slideChanged()">
+    <ion-slide *ngFor="let club of clubs">
+      <ion-card>
+        <img src="{{BaseURL + club.image}}"/>
+        <ion-card-content class="item item-text-wrap">
+          <ion-card-title>
+            {{club.name | uppercase}}
+          </ion-card-title>
+          <p>
+            {{club.description}}
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+
+  <!--
+  slides with one card per slides
+  automatically created with the number of events stored on the server
+-->
+<ion-slides *ngIf="events" spaceBetween="-10" (ionSlideDidChange)="slideChanged()">
+  <ion-slide *ngFor="let event of events">
+    <ion-card>
+      <img src="{{BaseURL + event.image}}"/>
+      <ion-card-content>
+        <ion-card-title>
+          {{event.name | uppercase}}
+        </ion-card-title>
+        <p>
+          {{event.description}}
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </ion-slide>
+</ion-slides>
+
+
+<!--
+single ion card for one event
+-->
+
+<ion-card *ngIf="event">
+  <img src="{{BaseURL + event.image}}"/>
+  <ion-card-content>
+    <ion-card-title>
+      {{event.name | uppercase}}
+    </ion-card-title>
+    <p>
+      {{event.description}}
+    </p>
+  </ion-card-content>
+</ion-card>
+<div [hidden]="event || eventErrMess">
+  <ion-spinner></ion-spinner>
+  <h4>Loading . . . Please Wait</h4>
+</div>
+<div *ngIf="eventErrMess">
+  <h2>Error</h2>
+  <h4>{{eventErrMess}}</h4>
+</div>
+
+
+<ion-card *ngIf="dj">
+  <img src="{{BaseURL + dj.image}}"/>
+  <ion-card-content>
+    <ion-card-title>
+      {{dj.name | uppercase}}
+    </ion-card-title>
+    <p>
+      {{dj.designation}}
+    </p>
+    <p>
+      {{dj.description}}
+    </p>
+  </ion-card-content>
+</ion-card>
+<div [hidden]="dj || djErrMess">
+  <ion-spinner></ion-spinner>
+  <h4>Loading . . . Please Wait</h4>
+</div>
+<div *ngIf="djErrMess">
+  <h2>Error</h2>
+  <h4>{{djErrMess}}</h4>
+</div>
+
+<ion-fab right bottom>
+  <button ion-fab color="accent"><ion-icon name="arrow-dropup"></ion-icon></button>
+  <ion-fab-list side="top">
+    <button ion-fab class="btn-mail"><ion-icon name="mail"></ion-icon></button>
+    <button ion-fab class="btn-google-plus"><ion-icon name="logo-googleplus"></ion-icon></button>
+    <button ion-fab class="btn-youtube"><ion-icon name="logo-youtube"></ion-icon></button>
+    <button ion-fab class="btn-twitter"><ion-icon name="logo-twitter"></ion-icon></button>
+    <button ion-fab class="btn-facebook"><ion-icon name="logo-facebook"></ion-icon></button>
+    <button ion-fab class="btn-linkedin"><ion-icon name="logo-linkedin"></ion-icon></button>
+  </ion-fab-list>
+</ion-fab>
+
+</ion-content>

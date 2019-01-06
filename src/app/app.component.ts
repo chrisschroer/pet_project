@@ -1,0 +1,67 @@
+import { Component, ViewChild } from '@angular/core';
+import { Nav, Platform, ModalController } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { HomePage } from '../pages/home/home';
+import { AboutPage } from '../pages/about/about';
+import { ClubsPage } from '../pages/clubs/clubs';
+import { MeasurealcPage } from '../pages/measurealc/measurealc';
+import { EventsPage } from '../pages/events/events';
+import { ContactPage } from '../pages/contact/contact';
+import { FavoritesPage } from '../pages/favorites/favorites';
+import { BuyticketsPage } from '../pages/buytickets/buytickets';
+import { CommentPage } from '../pages/comment/comment';
+import { LoginPage } from '../pages/login/login';
+
+@Component({
+  templateUrl: 'app.html'
+})
+export class MyApp {
+  @ViewChild(Nav) nav: Nav;
+
+  rootPage: any = HomePage;
+
+   pages: Array<{title: string, icon: string, component: any}>;
+
+  constructor(public platform: Platform, public statusBar: StatusBar,
+     public splashScreen: SplashScreen,
+     public modalCtrl: ModalController,) {
+    this.initializeApp();
+
+    // used for an example of ngFor and navigation
+    this.pages = [
+      { title: 'Home', icon: 'home', component: HomePage },
+      { title: 'My Favorites', icon: 'heart', component: FavoritesPage },
+      { title: 'Clubs', icon: 'flame', component: ClubsPage },
+      { title: 'Events', icon: 'list-box', component: EventsPage },
+      { title: 'Blood Alcohol', icon: 'beer', component: MeasurealcPage },
+      { title: 'About Us', icon: 'information-circle', component: AboutPage },
+      { title: 'Contact Us', icon: 'contact', component: ContactPage },
+    ];
+
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    });
+  }
+
+  openPage(page) {
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+    this.nav.setRoot(page.component);
+  }
+
+  openLogin() {
+    let modal = this.modalCtrl.create(LoginPage);
+    modal.present();
+  }
+
+
+
+}
