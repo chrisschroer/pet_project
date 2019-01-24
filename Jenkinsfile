@@ -30,7 +30,7 @@ pipeline {
             }
         }
       }
-      stage('Change Directory') {
+      stage('SonarCloud') {
         steps {
           dir ('src') {
             bat 'ls'
