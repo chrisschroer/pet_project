@@ -1,7 +1,7 @@
 organization=chrisschroer-github
 projectKey=chrisschroer_pet_project
 serverUrl=https://sonarcloud.io
-serverVersion=7.5.0.19741
+serverVersion=7.6.0.20657
 dashboardUrl=https://sonarcloud.io/dashboard?id=chrisschroer_pet_project
-ceTaskId=AWeDUFdvC8KiZyrQ-Rqc
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWeDUFdvC8KiZyrQ-Rqc
+ceTaskId=AWgso2byiIyhoR2HUJLt
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWgso2byiIyhoR2HUJLt
