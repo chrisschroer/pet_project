@@ -8,6 +8,12 @@ pipeline {
         steps {
           bat 'npm install'
         }
+        post{
+          always {
+              echo 'npm environment setup comleted'
+          }
+        }
+
       }
       stage('Ionic / Cordova') {
         steps {
@@ -17,6 +23,18 @@ pipeline {
       stage('Add Android') {
         steps {
           bat 'ionic cordova add android'
+        }
+        post {
+          success {
+              echo 'Installation successful'
+            }
+        }
+      }
+      stage('Change Directory') {
+        steps {
+          dir ('src') {
+            bat 'ls'
+          }
         }
       }
   }
