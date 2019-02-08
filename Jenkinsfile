@@ -30,6 +30,12 @@ pipeline {
             }
         }
       }
+      stage('Build Android') {
+        steps {
+          /* bat 'ionic cordova build android --release' */
+          echo 'Build Android'
+        }
+      }
       stage('SonarCloud') {
         steps {
           dir ('src') {
@@ -38,5 +44,22 @@ pipeline {
           }
         }
       }
-  }
+      stage('Sign .APK-File') {
+        steps {
+          /* sh 'jarsigner -storepass my_password -keystore keys/mykey.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk nameApp'*/
+          echo 'Sign .apk-File'
+        }
+      }
+      stage('Web Build') {
+        steps {
+          /* bat 'npm run build --prod' */
+          echo 'Web Build'
+        }
+      }
+   }
+   post {
+       success {
+          slackSend color: "good", message: "Job: ${env.JOB_NAME} with buildnumber ${env.BUILD_NUMBER} was successful"
+       }
+   }
 }
