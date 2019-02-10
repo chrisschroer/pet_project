@@ -6,6 +6,7 @@
 \documentclass[12pt]{article}
  
 \usepackage{listings}
+\usepackage{hyperref}
 \usepackage{color}
 \definecolor{lightgray}{rgb}{.95,.95,.95}
 \definecolor{darkgray}{rgb}{.4,.4,.4}
@@ -61,7 +62,7 @@ Advanced Softwareengineering} %if necessary, replace with your course title
 
 \section{Introduction}
 
-Add screenshots of working App
+The idea for the pet project \url{https://github.com/chrisschroer/pet_project} was to develop a prototype for an app which guides through the nighlife of a city, e.g. Berlin. In the following pictures, screenshots of the prototype are shown, e.g. the Home page with the club and event overview or the Blood Alochol page, where a user could roughly calculate his/her blood alcohol level based on the drinking behaviour.
 
 \begin{figure}[H]
 \minipage{0.32\textwidth}
@@ -81,19 +82,19 @@ Add screenshots of working App
 \begin{figure}[H]
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{figures/Calc_alc.jpg}
-  \caption{Blood alcohol page}\label{fig:awesome_image1}
+  \caption{Blood alcohol page}\label{fig:awesome_image4}
 \endminipage\hfill
 \minipage{0.32\textwidth}
   \includegraphics[width=\linewidth]{figures/Login.jpg}
-  \caption{Login Page}\label{fig:awesome_image2}
+  \caption{Login Page}\label{fig:awesome_image5}
 \endminipage\hfill
 \minipage{0.32\textwidth}%
   \includegraphics[width=\linewidth]{figures/Menu.jpg}
-  \caption{Sidemenu}\label{fig:awesome_image3}
+  \caption{Sidemenu}\label{fig:awesome_image6}
 \endminipage
 \end{figure}
 
-
+\newpage
 \section{UML}
 
 Three different UML-Diagrams were created for this Pet Project:
@@ -124,7 +125,7 @@ Three different UML-Diagrams were created for this Pet Project:
 
 \newpage
 \section{Metrics}
-The Metrics are obtained by running the Sonarcloud analysis for the project files. The results are shown in a screenshot of the Sonarcloud page in the picture below.
+The Metrics are obtained by running the Sonarcloud analysis for the project files. The results are shown in a screenshot of the Sonarcloud page \url{https://sonarcloud.io/dashboard?id=chrisschroer_pet_project} in the picture below.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{figures/Sonarcloud.png}
@@ -146,19 +147,129 @@ A major bug occurs because Sonarcloud interprets the .scss-files wrong in which 
     \caption{Major Bug because of unknown type selector}
 \end{figure}
 
+\newpage
+\section{Clean Code Development}
 
+Clean Code Development includes several principles for coding in an understandable and useful way to overcome issues in the further development of the code.
+
+\subsection{Exception Handling}
+Especially when working with servers and querying data, due to connection errors or wrong entries, different exceptions and errors can occur. Therefore, exception handling is important to enable an overall working product.
+One example is given in the code snippet below. The function getClubs connects to baseurl/clubs and tries to retrieve all the data. If the query is successful, every club gets extracted for the presentation on the clubs-page. If no data is received, the error is catched and processed as an error message which is presented on the error page.
+\begin{lstlisting}[language=javascript]
+  getClubs(): Observable<Club[]> {
+    return this.http.get(baseURL + 'clubs')
+    .map(res => { return this.processHTTPMsgService.extractData(res); })
+    .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  }
+\end{lstlisting}
+
+\subsection{Meaningful named variables}
+Meaningful named variables are important to facilitate the understanding of the code. This reduces the debugging time and allows e.g. coworkers an easier overview of written code. In the following code snippet, the formgroup variables of the measurealc-page are named no\_beer, no\_wine and no\_cocktails, which stands for number of beer/wine/cocktails and allows an easy use for the further calculation of the alcohol level.
+
+\begin{lstlisting}[language=javascript]
+todo = {
+    no_beer: 0,
+    no_wine: 0,
+    no_cocktails: 0,
+    alc_level: 0
+  }
+\end{lstlisting}
+
+\subsection{Open Closed Principle}
+
+The Open-Close-Principle (OCP) states that a class should be open for new functions or adjustments while the existing functions mustn't be modified in order to keep their functionality. For the pet project, events have to be queried from the server. It could be one, all, or just the featured event, which are needed. These three cases could all be established in one function, but the prototype started with only retrieving one event. In the next step, the existing function had not been modified, but another one has been added (getClubs). In the further development, the third function (getFeaturedEvent()) has been added in order to not modify the functionality of the existing function. By defining these functions in the providers folder, they are accessible and only defined once. This demonstrates the OPC, as the functionality of the getEvent()-function had been proved only once, as the further function were added without modifying the first one.
+\begin{lstlisting}[language=javascript]
+getEvents(): Observable<Event[]> {
+    return this.http.get(baseURL + 'events')
+                    .map(res => { return this.processHTTPMsgService.extractData(res); })
+                    .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  }
+
+  getEvent(id: number): Observable<Event> {
+    return  this.http.get(baseURL + 'events/'+ id)
+                    .map(res => { return this.processHTTPMsgService.extractData(res); })
+                    .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  }
+
+  getFeaturedEvent(): Observable<Event> {
+    return this.http.get(baseURL + 'events?featured=true')
+                    .map(res => { return this.processHTTPMsgService.extractData(res)[0]; })
+                    .catch(error => { return this.processHTTPMsgService.handleError(error); });
+  }
+\end{lstlisting}
+
+
+
+
+\subsection{Interfaces - DRY}
+
+In the pet project Interfaces are used for an easier access of frequently used instances. In this example, the Club interface is only assigned once and can be used anywhere else in the code just by importing the interface. It is an Don't-Repeat-Yourself (DRY) approach and prevents duplication of code.
+\begin{lstlisting}[language=javascript]
+import { Comment } from './comment';
+
+export interface Club {
+    id: number;
+    name: string;
+    image: string;
+    category: string;
+    label: string;
+    price: string;
+    featured: boolean;
+    description: string;
+    comments: Comment[];
+}
+
+\end{lstlisting}
+
+\newpage
+\subsection{Version Control - Git}
+
+Version control is done with Git and Github for this pet project. It allows an simple and safe environment for the project code and could be easily edited or saved. With the commands git clone, the developers local folder is updated to the repository state. With git add, git commit and git push, the developer is able to update the repository.
+
+\subsection{Continuous Delivery}
+In \autoref{chap:cd} the use and the implementation of Continuous Delivery is described.
+
+
+\subsection{Optimizations}
+
+Another priciple states to be careful with optimizations. They should only be applied, if the optimization really result in a better product for the customer or are mandatory due to safety issues.\\
+An example where these optimizations weren't necessary is explained in the following. 
+The listings \autoref{lst:former} and \autoref{lst:latest} represent the two ways of initializing a formgroup. The first approach is the former one and the one I learned over one year ago in my Ionic course. The second one is the latest approach of initializing formgroups and I tried to implement in this way as well. This proved the Clean Code Principle, which states to be careful with optimizations. With the new structure of the newer approach of initialization, the reagarding functions had the be changed, too. This led to a waste of time to rewrite correctly performing functions and it made me realize that optimization are not always necessary. Here, the use of the newer approach did not result in a better UX and should have been avoided in terms of timesavings and code complexity.
+
+\begin{lstlisting}[label = {lst:former}, language=javascript, caption={Former formgroup initialization},captionpos=b]
+  this.commentForm = this.formBuilder.group({
+    author: '',
+    rating: 3,
+    comment: ['', Validators.required],
+  });
+}
+
+\end{lstlisting}
+
+
+\begin{lstlisting}[label = {lst:latest},language=javascript, caption={Latest formgroup initialization},captionpos=b]
+  todo = {
+    no_beer: 0,
+    no_wine: 0,
+    no_cocktails: 0,
+    alc_level: 0
+  }
+\end{lstlisting}
+
+
+
+\newpage
 \section{Build Management}
 
-The Ionic Framework uses Cordova to build and deploy apps. To build e.g. an Android App, the command\\
+The Ionic Framework uses Cordova which includes Gradle to build and deploy apps. To build e.g. an Android App, the command\\
 $ > \, ionic\, cordova\, add\, android $\\
 needs to be run to add the Android platform the existing code. The command creates a platform/android directory, in which all necessary files for Android build are stored.\\
 The final .apk-File for the App is created by running\\
 $ > \, ionic\, cordova\, build\, android $\\
-Afterwards, the App can be run by running
-$ > \, ionic\, cordova\, run\, android $\\
-If a suitable smartphone with an Android operating system in developer mode is connected to the PC via USB, the App is installed on the smartphone and started. If only an emulator of Android Studio is available, the App is started in the emulator.\\
-For the whole Framework, there are several files that are involved in the build management
-
+Afterwards, the App can be run by executing\\
+$ > \, ionic\, cordova\, run\, android $ \\
+if a suitable smartphone with an Android operating system in developer mode is connected to the PC via USB, the App is installed on the smartphone and started. If only an emulator of Android Studio is available, the App is started in the emulator.\\
+For the whole Framework, there are several files that are involved in the build management.\\
 In the main folder, the config.xml-File is stored. In addition to this general setting file, several build.gradle-Files are stored for each platform. The structure of the build.gradle-Files is shown in the picture below. In this pet project, the directory for the gradle-Files is /platforms/android...
 \begin{figure}[H]
   \centering
@@ -276,17 +387,17 @@ describe('App', () => {
 });
 \end{lstlisting}
 
-\section{Continuous Delivery}
+\section{Continuous Delivery}\label{chap:cd}
 
 The Jenkinsfile is located in the main folder in the repository on Github. In addition to environment preparing and building steps, there is also a Sonarcloud analysis step. If all steps are executed with success, a Slack notification to a private channel named $ \sharp$build is pushed. The steps of signing and publishing the APK-File do not contain valid pipeline code, but are important to be considered for building an App which should be published in an App Store.\\
 The pipeline in Jenkins and the resulting Slack notification are shown in the below pictures:
 \begin{figure}[H]
  \includegraphics[width=\linewidth]{figures/Jenkins_Pipeline.PNG}
- \caption{Jenkins- Pipeline of a build success}\label{fig:awesome_image1}
+ \caption{Jenkins- Pipeline of a build success}\label{fig:awesome_image7}
 \end{figure}
 \begin{figure}[H]
  \includegraphics[width=\linewidth]{figures/Slack_Notification.PNG}
- \caption{Slack notification pushed by the Jenkinspipeline}\label{fig:awesome_image1}
+ \caption{Slack notification pushed by the Jenkinspipeline}\label{fig:awesome_image8}
 \end{figure}
 
 \section{DSL}

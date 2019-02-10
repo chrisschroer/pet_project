@@ -1,0 +1,26 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{UML}{}% 2
+\BOOKMARK [1][-]{section.3}{Metrics}{}% 3
+\BOOKMARK [1][-]{section.4}{Clean Code Development}{}% 4
+\BOOKMARK [2][-]{subsection.4.1}{Exception Handling}{section.4}% 5
+\BOOKMARK [2][-]{subsection.4.2}{Meaningful named variables}{section.4}% 6
+\BOOKMARK [2][-]{subsection.4.3}{Open Closed Principle}{section.4}% 7
+\BOOKMARK [2][-]{subsection.4.4}{Interfaces - DRY}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.5}{Version Control - Git}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.6}{Continuous Delivery}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.7}{Optimizations}{section.4}% 11
+\BOOKMARK [1][-]{section.5}{Build Management}{}% 12
+\BOOKMARK [2][-]{subsection.5.1}{config.xml-File}{section.5}% 13
+\BOOKMARK [2][-]{subsection.5.2}{Top-level build.gradle-File}{section.5}% 14
+\BOOKMARK [2][-]{subsection.5.3}{Module-level build.gradle-File}{section.5}% 15
+\BOOKMARK [2][-]{subsection.5.4}{Unit Tests}{section.5}% 16
+\BOOKMARK [1][-]{section.6}{Continuous Delivery}{}% 17
+\BOOKMARK [1][-]{section.7}{DSL}{}% 18
+\BOOKMARK [2][-]{subsection.7.1}{External}{section.7}% 19
+\BOOKMARK [2][-]{subsection.7.2}{Internal}{section.7}% 20
+\BOOKMARK [1][-]{section.8}{Functional Programming}{}% 21
+\BOOKMARK [2][-]{subsection.8.1}{Final Data Structures}{section.8}% 22
+\BOOKMARK [2][-]{subsection.8.2}{\(mostly\) Side Effect Free Functions}{section.8}% 23
+\BOOKMARK [2][-]{subsection.8.3}{Higher Order Functions}{section.8}% 24
+\BOOKMARK [2][-]{subsection.8.4}{Closures}{section.8}% 25
+\BOOKMARK [2][-]{subsection.8.5}{Anonymous functions}{section.8}% 26
